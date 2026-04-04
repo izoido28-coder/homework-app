@@ -20,16 +20,18 @@ if st.button("Add") and hw:
     # Clear text input by using session state
     st.session_state["hw_input"] = ""
 
-# Display homework
+# Display homework (replace your whole display section with this)
 colors = {"Math":"blue","Science":"green","English":"orange","History":"purple","Other":"gray"}
 today = datetime.date.today()
-    for i, (task, due, subj) in enumerate(st.session_state["list"]):
-    st.write(f"{task} ({subj}) - {due}")
+
+for i, (task, due, subj) in enumerate(st.session_state["list"]):
+    line = f"{task} ({subj}) - {due.strftime('%b %d')}"
+    if due < today:
+        line = "🔴 " + line
+    st.markdown(f"<span style='color:{colors[subj]}'>{line}</span>", unsafe_allow_html=True)
     if st.button("❌", key=f"d{i}"):
         st.session_state["list"].pop(i)
         st.rerun()
-st.subheader("Calendar")
-
 month = st.selectbox("Month", range(1, 13), index=datetime.date.today().month - 1)
 year = st.number_input("Year", value=datetime.date.today().year, min_value=2020)
 
