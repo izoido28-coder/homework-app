@@ -23,6 +23,9 @@ if st.button("Add") and hw:
 # Display homework
 colors = {"Math":"blue","Science":"green","English":"orange","History":"purple","Other":"gray"}
 today = datetime.date.today()
+if st.button("Delete", key=i):
+    st.session_state["list"].pop(i)
+    st.rerun()
 
 st.subheader("Calendar")
 
