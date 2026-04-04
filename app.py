@@ -23,10 +23,11 @@ if st.button("Add") and hw:
 # Display homework
 colors = {"Math":"blue","Science":"green","English":"orange","History":"purple","Other":"gray"}
 today = datetime.date.today()
-if st.button("Delete", key=f"delete_{i}"):
-    st.session_state["list"].pop(i)
-    st.rerun()
-
+    for i, (task, due, subj) in enumerate(st.session_state["list"]):
+    st.write(f"{task} ({subj}) - {due}")
+    if st.button("❌", key=f"d{i}"):
+        st.session_state["list"].pop(i)
+        st.rerun()
 st.subheader("Calendar")
 
 month = st.selectbox("Month", range(1, 13), index=datetime.date.today().month - 1)
