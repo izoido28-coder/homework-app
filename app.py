@@ -22,6 +22,13 @@ if st.button("Add") and hw:
 colors = {"Math":"blue","Science":"green","English":"orange","History":"purple","Other":"gray"}
 today = datetime.date.today()
 
+st.header("Calendar")
+month = st.selectbox("Month", range(1, 13), index=datetime.date.today().month-1)
+year = st.number_input("Year", value=datetime.date.today().year, min_value=2020)
+cal = calendar.monthcalendar(year, month)
+for week in cal:
+    st.write(" | ".join(["💀" if any(h[1].day == d and h[1].month == month for h in st.session_state["list"]) else str(d) if d else "" for d in week]))
+    
 for i, (task, due, subj) in enumerate(st.session_state["list"]):
     line = f"{task} ({subj}) - {due.strftime('%b %d')}"
     if due < today:
