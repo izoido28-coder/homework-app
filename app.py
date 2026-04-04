@@ -1,6 +1,7 @@
 import streamlit as st
 import datetime
 import calendar
+import pandas as pd
 
 st.title("Homework List")
 
@@ -23,21 +24,25 @@ if st.button("Add") and hw:
 colors = {"Math":"blue","Science":"green","English":"orange","History":"purple","Other":"gray"}
 today = datetime.date.today()
 
-st.header("Calendar")
+st.subheader("Calendar")
 
 month = st.selectbox("Month", range(1, 13), index=datetime.date.today().month - 1)
 year = st.number_input("Year", value=datetime.date.today().year, min_value=2020)
 
 cal = calendar.monthcalendar(year, month)
-st.write(" | ".join(["Mon","Tue","Wed","Thu","Fri","Sat","Sun"]))
+days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
+
+cols = st.columns(7)
+for i, d in enumerate(days):
+    cols[i].markdown(f"**{d}**")
 
 for week in cal:
-    row = []
-    for d in week:
-        if d == 0:
-            row.append("")
+    cols = st.columns(7)
+    for i, day in enumerate(week):
+        if day == 0:
+            cols[i].markdown("")
         else:
-            day_date = datetime.date(year, month, d)
-            hws = [f"{hw}({subj})" for hw, due, subj in st.session_state["list"] if due == day_date]
-            row.append(f"{d}<br><small>{'; '.join(hws[:2])}</small>" if hws else str(d))
-    st.markdown(" | ".join(row), unsafe_allow_html=True)
+            day_date = datetime.date(year, month, day)
+            items = [f"- {hw} ({subj})" for hw, due, subj in st.session_state["list"] if due == day_date]
+            box = f"**{day}**<br>" + "<br>".join(items) if items else f"**{day}**"
+            cols[i].markdown(box, unsafe_allow_html=True)
