@@ -1,7 +1,6 @@
 import streamlit as st
 import datetime
 import calendar
-import pandas as pd
 
 st.title("Homework List")
 
