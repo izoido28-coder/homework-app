@@ -19,7 +19,7 @@ if st.button("Add") and hw:
     # Clear text input by using session state
     st.session_state["hw_input"] = ""
 
-# Display homework (replace your whole display section with this)
+# Display homework 
 colors = {"Math":"blue","Science":"green","English":"orange","History":"purple","Other":"gray"}
 today = datetime.date.today()
 
