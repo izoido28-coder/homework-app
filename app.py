@@ -41,20 +41,30 @@ days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
 
 st.write("### Calendar")
 
-# Calendar header
-cols = st.columns(7)
-for i, day in enumerate(days):
-    cols[i].write(f"**{day}**")
+st.write("### Calendar")
+
+# Header row
+header = "| " + " | ".join(days) + " |"
+separator = "| " + " | ".join(["---"] * 7) + " |"
+st.markdown(header)
+st.markdown(separator)
 
 # Calendar rows
 for week in cal:
-    cols = st.columns(7)
-    for i, day in enumerate(week):
+    row = []
+    for day in week:
         if day == 0:
-            cols[i].write(" ")
+            row.append(" ")
         else:
             day_date = datetime.date(year, month, day)
             tasks = [hw for hw, d in st.session_state["homework"] if d == day_date]
-            cell_text = f"{day}\n" + "\n".join(tasks) if tasks else str(day)
-            cols[i].write(cell_text)
-    st.markdown("---")  # line between weeks
+            
+            # Add spacing between tasks
+            task_text = "<br><br>".join(tasks)
+            
+            if tasks:
+                row.append(f"**{day}**<br>{task_text}")
+            else:
+                row.append(str(day))
+    
+    st.markdown("| " + " | ".join(row) + " |", unsafe_allow_html=True)
