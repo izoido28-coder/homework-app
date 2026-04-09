@@ -2,31 +2,36 @@ import streamlit as st
 import datetime
 import calendar
 
-st.title("Homework List - Basic with Delete")
+st.title("Homework List - Safe Delete Version")
 
 # Initialize homework list
 if "homework" not in st.session_state:
     st.session_state["homework"] = []
 
-# Input for new homework with a unique key
+# Input for new homework
 new_hw = st.text_input("Enter Homework", key="hw_input")
 due_date = st.date_input("Due Date", value=datetime.date.today(), key="date_input")
 
-# Button to add homework with a unique key
+# Button to add homework
 if st.button("Add", key="add_button") and new_hw != "":
     st.session_state["homework"].append((new_hw, due_date))
+
+# Safe delete: store index to remove
+delete_index = None
 
 # Display homework list with delete buttons
 st.write("### Homework List")
 for i, (hw, d) in enumerate(st.session_state["homework"]):
     col1, col2 = st.columns([4, 1])
     col1.write(f"{hw} - {d.strftime('%d/%m/%Y')}")
-    # Each delete button has a unique key using the index
     if col2.button("Delete", key=f"del_{i}"):
-        st.session_state["homework"].pop(i)
-        st.experimental_rerun()  # safely refresh app
+        delete_index = i
 
-# Select month and year
+# Remove the item outside of the loop
+if delete_index is not None:
+    st.session_state["homework"].pop(delete_index)
+
+# Month and year selection
 month = st.number_input("Month", min_value=1, max_value=12, value=datetime.date.today().month)
 year = st.number_input("Year", min_value=2020, value=datetime.date.today().year)
 
@@ -46,7 +51,7 @@ for week in cal:
     cols = st.columns(7)
     for i, day in enumerate(week):
         if day == 0:
-            cols[i].write(" ")  # empty cell
+            cols[i].write(" ")
         else:
             day_date = datetime.date(year, month, day)
             tasks = [hw for hw, d in st.session_state["homework"] if d == day_date]
