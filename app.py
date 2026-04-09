@@ -2,50 +2,49 @@ import streamlit as st
 import datetime
 import calendar
 
-st.title("Lista de Tareas - Básico")
+st.title("Homework List - Super Basic")
 
-# Inicializar lista de tareas
-if "tareas" not in st.session_state:
-    st.session_state["tareas"] = []
+# Initialize homework list
+if "homework" not in st.session_state:
+    st.session_state["homework"] = []
 
-# Ingresar nueva tarea
-tarea = st.text_input("Tarea")
-fecha = st.date_input("Fecha", value=datetime.date.today())
+# Input new homework
+hw = st.text_input("Homework")
+date = st.date_input("Due Date", value=datetime.date.today())
 
-# Botón para agregar tarea
-if st.button("Agregar") and tarea != "":
-    st.session_state["tareas"].append((tarea, fecha))
+# Add homework
+if st.button("Add") and hw != "":
+    st.session_state["homework"].append((hw, date))
 
-# Mostrar lista de tareas
-st.write("### Lista de Tareas")
-for t, f in st.session_state["tareas"]:
-    st.write(f"{t} - {f.strftime('%d/%m/%Y')}")
+# Show homework list
+st.write("### Homework List")
+for h, d in st.session_state["homework"]:
+    st.write(f"{h} - {d.strftime('%d/%m/%Y')}")
 
-# Selección de mes y año
-mes = st.number_input("Mes", min_value=1, max_value=12, value=datetime.date.today().month)
-año = st.number_input("Año", min_value=2020, value=datetime.date.today().year)
+# Select month and year
+month = st.number_input("Month", min_value=1, max_value=12, value=datetime.date.today().month)
+year = st.number_input("Year", min_value=2020, value=datetime.date.today().year)
 
-# Generar calendario
-cal = calendar.monthcalendar(año, mes)
-dias = ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"]
+# Generate calendar
+cal = calendar.monthcalendar(year, month)
+days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
 
-st.write("### Calendario")
-# Cabecera
+st.write("### Calendar")
+
+# Header row
 cols = st.columns(7)
-for i, d in enumerate(dias):
+for i, d in enumerate(days):
     cols[i].write(f"**{d}**")
 
-# Filas del calendario
-for semana in cal:
+# Rows for each week
+for week in cal:
     cols = st.columns(7)
-    for i, dia in enumerate(semana):
-        if dia == 0:
-            cols[i].write(" ")
+    for i, day in enumerate(week):
+        if day == 0:
+            cols[i].write(" ")  # empty cell
         else:
-            dia_date = datetime.date(año, mes, dia)
-            tareas_dia = [t for t, f in st.session_state["tareas"] if f == dia_date]
-            if tareas_dia:
-                texto = f"{dia}\n" + "\n".join(tareas_dia)
-            else:
-                texto = str(dia)
-            cols[i].write(texto)
+            day_date = datetime.date(year, month, day)
+            tasks = [h for h, d in st.session_state["homework"] if d == day_date]
+            text = f"{day}\n" + "\n".join(tasks) if tasks else str(day)
+            cols[i].write(text)
+    st.markdown("---")  # line between weeks
