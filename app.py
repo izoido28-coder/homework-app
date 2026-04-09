@@ -2,7 +2,7 @@ import streamlit as st
 import datetime
 import calendar
 
-st.title("Homework List - Super Basic")
+st.title("Homework List")
 
 # Initialize homework list
 if "homework" not in st.session_state:
