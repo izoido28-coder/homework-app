@@ -43,7 +43,8 @@ st.write("### Calendar")
 # Calendar header
 cols = st.columns(7)
 for i, day in enumerate(days):
-    cols[i].write(f"**{day}**")
+    col1.write(f"{hw}")
+col1.write(f"{d.strftime('%d/%m/%Y')}")
 
 # Calendar rows
 for week in cal:
