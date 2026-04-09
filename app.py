@@ -20,10 +20,10 @@ if st.button("Add", key="add_button") and new_hw != "":
 delete_index = None
 
 # Display homework list with delete buttons
-st.write("### Homework List")
 for i, (hw, d) in enumerate(st.session_state["homework"]):
     col1, col2 = st.columns([4, 1])
-    col1.write(f"{hw} - {d.strftime('%d/%m/%Y')}")
+    col1.write(f"{hw}")
+    col1.write(f"{d.strftime('%d/%m/%Y')}")
     if col2.button("Delete", key=f"del_{i}"):
         delete_index = i
 
