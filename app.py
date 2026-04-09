@@ -2,7 +2,7 @@ import streamlit as st
 import datetime
 import calendar
 
-st.title("Homework List - Safe Delete Version")
+st.title("Homework List")
 
 # Initialize homework list
 if "homework" not in st.session_state:
@@ -37,7 +37,8 @@ year = st.number_input("Year", min_value=2020, value=datetime.date.today().year)
 
 # Generate calendar
 cal = calendar.monthcalendar(year, month)
-days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
+days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri",
+        "Sat"]
 
 st.write("### Calendar")
 
@@ -48,23 +49,3 @@ header = "| " + " | ".join(days) + " |"
 separator = "| " + " | ".join(["---"] * 7) + " |"
 st.markdown(header)
 st.markdown(separator)
-
-# Calendar rows
-for week in cal:
-    row = []
-    for day in week:
-        if day == 0:
-            row.append(" ")
-        else:
-            day_date = datetime.date(year, month, day)
-            tasks = [hw for hw, d in st.session_state["homework"] if d == day_date]
-            
-            # Add spacing between tasks
-            task_text = "<br><br>".join(tasks)
-            
-            if tasks:
-                row.append(f"**{day}**<br>{task_text}")
-            else:
-                row.append(str(day))
-    
-    st.markdown("| " + " | ".join(row) + " |", unsafe_allow_html=True)
