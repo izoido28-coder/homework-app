@@ -20,8 +20,8 @@ if st.button("Add", key="add_button") and new_hw != "":
 delete_index = None
 
 # Display homework list with delete buttons
-for i, day in enumerate(days):
-    cols[i].write(f"**{day}**")
+st.write("### Homework List")
+for i, (hw, d) in enumerate(st.session_state["homework"]):
     col1, col2 = st.columns([4, 1])
     col1.write(f"{hw}")
     col1.write(f"{d.strftime('%d/%m/%Y')}")
@@ -38,14 +38,14 @@ year = st.number_input("Year", min_value=2020, value=datetime.date.today().year)
 
 # Generate calendar
 cal = calendar.monthcalendar(year, month)
-days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
+days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
+
 st.write("### Calendar")
 
 # Calendar header
 cols = st.columns(7)
 for i, day in enumerate(days):
-    col1.write(f"{hw}")
-col1.write(f"{d.strftime('%d/%m/%Y')}")
+    cols[i].write(f"**{day}**")
 
 # Calendar rows
 for week in cal:
@@ -60,4 +60,4 @@ for week in cal:
             if tasks:
                 cell_text += "\n" + "\n".join(tasks)
             cols[i].write(cell_text)
-    st.markdown("---")  # 
+    st.markdown("---")
