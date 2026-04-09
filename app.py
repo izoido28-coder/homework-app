@@ -20,7 +20,8 @@ if st.button("Add", key="add_button") and new_hw != "":
 delete_index = None
 
 # Display homework list with delete buttons
-for i, (hw, d) in enumerate(st.session_state["homework"]):
+for i, day in enumerate(days):
+    cols[i].write(f"**{day}**")
     col1, col2 = st.columns([4, 1])
     col1.write(f"{hw}")
     col1.write(f"{d.strftime('%d/%m/%Y')}")
