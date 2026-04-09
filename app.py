@@ -60,4 +60,5 @@ for week in cal:
 if tasks:
     for task in tasks:
         cols[i].write(task)
+    st.markdown("<br>", unsafe_allow_html=True)
     st.markdown("---")
