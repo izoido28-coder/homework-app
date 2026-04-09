@@ -57,8 +57,8 @@ for week in cal:
             day_date = datetime.date(year, month, day)
             tasks = [hw for hw, d in st.session_state["homework"] if d == day_date]
             cols[i].write(f"{day}")
-if tasks:
-    for task in tasks:
-        cols[i].write(task)
+            if tasks:
+                for task in tasks:
+                    cols[i].write(task)
     st.markdown("<br>", unsafe_allow_html=True)
     st.markdown("---")
